@@ -12,7 +12,6 @@ namespace CleverenceSoft_TestTask3
             string outputFile = "output.log";
             string problemsFile = "problems.log";
 
-            // Создаем тестовый input.log
             try
             {
                 using (StreamWriter sw = new StreamWriter(inputFile, false, System.Text.Encoding.UTF8))
@@ -30,7 +29,7 @@ namespace CleverenceSoft_TestTask3
             catch (Exception e)
             {
                 Console.WriteLine($"Ошибка при создании тестового файла: {e.Message}");
-                return; // Завершаем программу, если не удалось создать тестовый файл.
+                return;
             }
 
 
@@ -132,6 +131,11 @@ namespace CleverenceSoft_TestTask3
                 string callingMethod = match2.Groups[5].Value;
                 string message = match2.Groups[6].Value.Trim();
 
+                if(callingMethod == "")
+                {
+                    callingMethod = "DEFAULT";
+                }
+
                 // Преобразование даты
                 string[] dateParts = date.Split('-');
                 date = $"{dateParts[2]}-{dateParts[1]}-{dateParts[0]}";
@@ -151,13 +155,17 @@ namespace CleverenceSoft_TestTask3
             logLevel = logLevel.ToUpper();
             switch (logLevel)
             {
-                case "INFORMATION": return "INFO";
-                case "WARNING": return "WARN";
-                case "ERROR": return "ERROR";
-                case "DEBUG": return "DEBUG";
+                case "INFORMATION":
                 case "INFO": return "INFO";
+
+                case "WARNING":
                 case "WARN": return "WARN";
-                default: return logLevel; // Возвращаем исходное значение, если не удалось преобразовать
+
+                case "ERROR": return "ERROR";
+
+                case "DEBUG": return "DEBUG";
+
+                default: return logLevel;
             }
         }
     }
